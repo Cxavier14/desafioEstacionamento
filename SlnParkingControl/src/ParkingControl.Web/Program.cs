@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using ParkingControl.Infra.Data.Context;
+
 var builder = WebApplication.CreateBuilder(args);
+var MySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnectionString");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<MySQLContext>
+    (options => options.UseMySql(MySQLConnectionString, ServerVersion.AutoDetect(MySQLConnectionString)));
 
 var app = builder.Build();
 
