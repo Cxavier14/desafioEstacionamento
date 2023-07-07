@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ParkingControl.Application.Service.IServices;
+using ParkingControl.Domain.DTOs;
 using ParkingControl.Web.Models;
 using System.Diagnostics;
 
@@ -6,27 +8,46 @@ namespace ParkingControl.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IVeiculoService _veiculoService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IVeiculoService veiculoService)
         {
-            _logger = logger;
+            _veiculoService= veiculoService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var result = _veiculoService.BuscarTodos();
+            return View(result);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Create()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public async Task<IActionResult> Create(VeiculoDTO veiculo)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (await _veiculoService.Salvar(veiculo) > 0) RedirectToAction(nameof(Index));
+                }
+                RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var result = await _veiculoService.BuscarPeloId(id);
+            return View(result);
         }
     }
 }

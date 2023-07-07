@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#logo-navbar {
+    width: 2.3em;
+}
+
+.linha-tabela {
+    cursor: pointer;
+}

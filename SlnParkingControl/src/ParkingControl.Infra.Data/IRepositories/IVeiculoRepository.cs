@@ -9,8 +9,8 @@ namespace ParkingControl.Infra.Data.IRepositories
 {
     public interface IVeiculoRepository
     {
-        Task<IEnumerable<Veiculo>> BuscarTodos();
-        Task<Veiculo> BuscarPorPlaca(string placa);
+        IEnumerable<Veiculo> BuscarTodos();
+        Task<List<Veiculo>> BuscarPorPlaca(string placa);
         Task<Veiculo> BuscarPeloId(int id);
         Task<int> Salvar(Veiculo veiculo);
         Task<int> Editar(Veiculo veiculo);

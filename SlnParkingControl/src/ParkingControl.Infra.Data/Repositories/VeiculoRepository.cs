@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ParkingControl.Infra.Data.Repositories
 {
-    public class VeiculoRepository: IVeiculoRepository
+    public class VeiculoRepository : IVeiculoRepository
     {
         private readonly MySQLContext _context;
 
@@ -19,36 +19,37 @@ namespace ParkingControl.Infra.Data.Repositories
             _context = context;
         }
 
-        public Task<Veiculo> BuscarPorPlaca(string placa)
+        public IEnumerable<Veiculo> BuscarTodos()
         {
-            throw new NotImplementedException();
+            return _context.Veiculos;
         }
 
-        public async Task<IEnumerable<Veiculo>> BuscarTodos()
+        public async Task<int> Salvar(Veiculo veiculo)
         {
-            var query = await _context.Veiculos.ToListAsync();
-            return query;
+            _context.Veiculos.Add(veiculo);
+            return await _context.SaveChangesAsync();
         }
 
-        public Task<int> Deletar(Veiculo veiculo)
+        public async Task<int> Editar(Veiculo veiculo)
+        {
+            _context.Veiculos.Update(veiculo);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> Deletar(Veiculo veiculo)
         {
             _context.Veiculos.Remove(veiculo);
-            return _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
-        public Task<int> Editar(Veiculo veiculo)
+        public async Task<List<Veiculo>> BuscarPorPlaca(string placa)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> Salvar(Veiculo veiculo)
-        {
-            throw new NotImplementedException();
+            return await _context.Veiculos.Where(v => v.Placa.ToUpper().Contains(placa.ToUpper())).ToListAsync();
         }
 
         public async Task<Veiculo> BuscarPeloId(int id)
         {
-            return await _context.Veiculos.FindAsync(id);            
+            return await _context.Veiculos.FindAsync(id);
         }
     }
 }
