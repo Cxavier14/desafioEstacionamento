@@ -9,6 +9,6 @@ namespace ParkingControl.Infra.Data.IRepositories
 {
     public interface ITarifaRepository
     {
-        IEnumerable<Tarifa> BuscarTodos();        
+        Tarifa BuscarTarifa();        
     }
 }

@@ -6,9 +6,9 @@
 
 <div class="card rounded shadow-sm p-3">
     <div class="d-flex justify-content-between mb-3">
-        <div class="align-items-end flex-column p-2">
+        <div class="align-items-end flex-column">
             <form>
-                <div class="input-group mb-2 ms-auto">
+                <div class="input-group ms-auto">
                     <div class="input-group-prepended">
                         <input type="text" class="form-control" placeholder="AAA0000 / AAA2B23">
                     </div>
@@ -21,27 +21,27 @@
 
     <table class="table table-striped table-hover">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <th>@Html.DisplayNameFor(model => model.placa)</th>
                 <th>@Html.DisplayNameFor(model => model.dataHoraEntrada)</th>
                 <th>@Html.DisplayNameFor(model => model.dataHoraSaida)</th>
-                <td>Duração</td>
-                <td>Tempo Cobrado (Hora)</td>
-                <td>Tarifa</td>
-                <td>Valor a pagar</td>
+                <th>@Html.DisplayNameFor(model => model.duracao)</th>
+                <th>@Html.DisplayNameFor(model => model.tempoCobrado)</th>
+                <th>@Html.DisplayNameFor(model => model.tarifa)</th>
+                <th>@Html.DisplayNameFor(model => model.valorPagar)</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var v in Model)
             {
-                <tr onclick="details(@v.id)" class="linha-tabela">
+                <tr onclick="edit(@v.id)" class="linha-tabela text-center">
                     <td>@Html.DisplayFor(modelItem => v.placa)</td>
                     <td>@Html.DisplayFor(modelItem => v.dataHoraEntrada)</td>
                     <td>@Html.DisplayFor(modelItem => v.dataHoraSaida)</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>@Html.DisplayFor(modelItem => v.duracao)</td>
+                    <td>@Html.DisplayFor(modelItem => v.tempoCobrado)</td>
+                    <td>R$ @Html.DisplayFor(modelItem => v.tarifa)</td>
+                    <td>R$ @Html.DisplayFor(modelItem => v.valorPagar)</td>
                 </tr>
             }
         </tbody>
@@ -52,8 +52,8 @@
 
 @section scripts {
     <script>
-        const details = (id) => {
-            $('#modal').load(`@Url.Action("Details")/${id}`, () => {
+        const edit = (id) => {
+            $('#modal').load(`@Url.Action("Edit")/${id}`, () => {
                 $('#modal').modal('show');
             })
         }

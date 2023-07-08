@@ -1,4 +1,5 @@
-﻿using ParkingControl.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ParkingControl.Domain.Entities;
 using ParkingControl.Infra.Data.Context;
 using ParkingControl.Infra.Data.IRepositories;
 using System;
@@ -18,10 +19,11 @@ namespace ParkingControl.Infra.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<Tarifa> BuscarTodos()
+        public Tarifa BuscarTarifa()
         {
-            return _context.Tarifas;
-
+            return _context.Tarifas
+                .OrderBy(t => t.DataVigencia)
+                .LastOrDefault();            
         }
     }
 }

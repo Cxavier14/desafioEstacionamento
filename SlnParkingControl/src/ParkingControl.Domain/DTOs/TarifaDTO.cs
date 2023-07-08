@@ -13,12 +13,10 @@ namespace ParkingControl.Domain.DTOs
     {
         public int id { get; set; }
 
-        [Required(ErrorMessage = "{0} é obrigatório!")]
         [Display(Name = "Preço")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double preco { get; set; }
 
-        [Required(ErrorMessage = "{0} é obrigatória!")]
         [Display(Name = "Data de vigência")]
         public DateTime dataVigencia { get; set; }
 

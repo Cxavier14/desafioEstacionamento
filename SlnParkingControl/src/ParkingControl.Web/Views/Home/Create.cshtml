@@ -8,14 +8,16 @@
         <form>
             <div class="modal-body">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="Placa">
+                    <input asp-for="id" type="hidden" class="form-control" id="floatingInput" placeholder="Placa">
+                    <label for="floatingInput">Placa</label>
+                    <input asp-for="placa" type="text" class="form-control" id="floatingInput" placeholder="Placa" required>
                     <label for="floatingInput">Placa</label>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Salvar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
         </form>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Salvar</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        </div>
     </div>
 </div>

@@ -18,17 +18,12 @@ namespace ParkingControl.Application.Service.Services
             _repository = repository;
         }
 
-        public IEnumerable<TarifaDTO> BuscarTodos()
+        public TarifaDTO BuscarTarifa()
         {
             try
             {
-                return _repository.BuscarTodos()
-                    .Select(t => new TarifaDTO
-                    {
-                        id = t.Id,
-                        preco = t.Preco,
-                        dataVigencia = t.DataVigencia
-                    });
+                var dto = new TarifaDTO();
+                return dto.mapToDTO(_repository.BuscarTarifa());
             }
             catch (Exception ex)
             {

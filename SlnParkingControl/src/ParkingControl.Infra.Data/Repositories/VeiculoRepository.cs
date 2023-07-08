@@ -19,9 +19,10 @@ namespace ParkingControl.Infra.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<Veiculo> BuscarTodos()
+        public async Task<List<Veiculo>> BuscarTodos()
         {
-            return _context.Veiculos;
+            var result = _context.Veiculos;
+            return await result.ToListAsync();
         }
 
         public async Task<int> Salvar(Veiculo veiculo)

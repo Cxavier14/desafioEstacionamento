@@ -20,18 +20,18 @@ namespace ParkingControl.Application.Service.Services
             _repository = repository;
         }
 
-        public IEnumerable<VeiculoDTO> BuscarTodos()
+        public async Task<List<VeiculoDTO>> BuscarTodos()
         {
             try
             {
-                return _repository.BuscarTodos()
-                    .Select(v => new VeiculoDTO
-                    {
-                        id = v.Id,
-                        placa = v.Placa,
-                        dataHoraEntrada = v.DataHoraEntrada,
-                        dataHoraSaida = v.DataHoraSaida,
-                    });
+                var result = await _repository.BuscarTodos();
+                return result.Select(v => new VeiculoDTO
+                {
+                    id = v.Id,
+                    placa = v.Placa,
+                    dataHoraEntrada = v.DataHoraEntrada,
+                    dataHoraSaida = v.DataHoraSaida
+                }).ToList();
             }
             catch (Exception ex)
             {
@@ -63,18 +63,6 @@ namespace ParkingControl.Application.Service.Services
             }
         }
 
-        public async Task<int> Deletar(VeiculoDTO veiculo)
-        {
-            try
-            {
-                return await _repository.Deletar(veiculo.mapToEntity());
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ocorreu um erro ao tentar deletar este registro! {ex.Message}");
-            }
-        }
-
         public async Task<List<VeiculoDTO>> BuscarPorPlaca(string placa)
         {
             try
@@ -93,6 +81,18 @@ namespace ParkingControl.Application.Service.Services
             }
         }
 
+        public async Task<int> Deletar(VeiculoDTO veiculo)
+        {
+            try
+            {
+                return await _repository.Deletar(veiculo.mapToEntity());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ocorreu um erro ao tentar deletar este registro! {ex.Message}");
+            }
+        }
+
         public async Task<VeiculoDTO> BuscarPeloId(int id)
         {
             try
@@ -103,6 +103,50 @@ namespace ParkingControl.Application.Service.Services
             catch (Exception ex)
             {
                 throw new Exception($"Ocorreu um erro inesperado! {ex.Message}");
+            }
+        }
+
+        public TimeSpan CalculaDuracao(DateTime horaEntrada, DateTime horaSaida)
+        {
+            TimeSpan ts = horaSaida.Subtract(horaEntrada);
+            return ts;
+        }
+
+        public int CalculaTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida)
+        {
+            int ts = horaSaida.Hour - horaEntrada.Hour;
+            var temp = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
+
+            if (temp.TotalMinutes > 0 && temp.TotalMinutes <= 30)
+            {
+                ts = 0;
+                return ts;
+            }
+            else
+            {
+                return ts;
+            }
+        }
+
+        public double CalculaValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco)
+        {
+            TimeSpan tolerancia = new(0, 10, 0);
+
+            var tempoPermanencia = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
+            var tempoTolerancia = tempoPermanencia.Add(tolerancia);
+            var tempoHoras = CalculaTempoCobradoEmHoras(horaEntrada, horaSaida);
+
+            if (tempoHoras.Equals(0))
+            {
+                return 1.0 * (preco / 2);
+            }
+            else if (tempoPermanencia <= tempoTolerancia)
+            {
+                return tempoHoras * preco;
+            }
+            else
+            {
+                return (tempoHoras + 1) * preco;
             }
         }
     }

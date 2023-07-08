@@ -15,9 +15,17 @@ namespace ParkingControl.Web.Controllers
             _veiculoService= veiculoService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var result = _veiculoService.BuscarTodos();
+            var result = await _veiculoService.BuscarTodos();
+
+            foreach (var item in result)
+            {
+                item.duracao = _veiculoService.CalculaDuracao(item.dataHoraEntrada, item.dataHoraSaida);
+                item.tempoCobrado = _veiculoService.CalculaTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida);
+                item.valorPagar = _veiculoService.CalculaValorPagar(item.dataHoraEntrada, item.dataHoraSaida, item.tarifa);
+            }
+
             return View(result);
         }
 
@@ -44,7 +52,7 @@ namespace ParkingControl.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var result = await _veiculoService.BuscarPeloId(id);
             return View(result);

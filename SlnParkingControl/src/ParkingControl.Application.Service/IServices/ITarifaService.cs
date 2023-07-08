@@ -10,6 +10,6 @@ namespace ParkingControl.Application.Service.IServices
 {
     public interface ITarifaService
     {
-        IEnumerable<TarifaDTO> BuscarTodos();
+        TarifaDTO BuscarTarifa();
     }
 }
