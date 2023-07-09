@@ -5,8 +5,8 @@
 </p>
 <hr>
 <p>
-    <h3>O padrão de projeto utilizado foi o DDD, em uma aplicação MVC em .NET 6.0</h3>
+    <h3>O padrão de projeto utilizado foi o DDD (Domain-Driven Design), em uma aplicação MVC em .NET 6.0</h3>
 </p>
 <p>
-    <h3>Tecnologias utilizadas:</h3>
+    <spam>Utilizando uma aplicação .Net Web MVC, com MySql como banco de dados.</spam>
 </p>
