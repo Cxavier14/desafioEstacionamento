@@ -13,8 +13,7 @@ namespace ParkingControl.Domain.DTOs
     {
         public int id { get; set; }
 
-        [Required(ErrorMessage = "{0} é obrigatória!")]
-        [StringLength(6, MinimumLength = 6, ErrorMessage = "O valor digitado não é uma placa válida!")]
+        [StringLength(7, MinimumLength = 7, ErrorMessage = "O valor digitado não é uma placa válida!")]
         [Display(Name = "Placa")]
         public string placa { get; set; }
 
@@ -80,7 +79,7 @@ namespace ParkingControl.Domain.DTOs
             return new Veiculo
             {
                 Id = id,
-                Placa = placa,
+                Placa = placa.ToUpper(),
                 DataHoraEntrada = dataHoraEntrada,
                 DataHoraSaida = dataHoraSaida
             };

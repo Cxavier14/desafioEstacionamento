@@ -5,12 +5,26 @@
         <div class="modal-header">
             <h5 class="modal-title">Editar @Model.placa</h5>
         </div>
-        <div class="modal-body">
-            <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Salvar</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        </div>
+        <form asp-action="Edit">
+            <div class="modal-body">
+                <input type="hidden" asp-for="id"/>
+                <div class="form-floating mb-3">
+                    <input asp-for="placa" type="text" class="form-control" id="floatingInput" placeholder="Placa" required />
+                    <label for="floatingInput">Placa</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="dataHoraEntrada" class="form-control" id="floatingInput" placeholder="Data e hora entrada" required />
+                    <label for="floatingInput">Data e hora entrada</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="dataHoraSaida" class="form-control" id="floatingInput" placeholder="Data e hora saída" required />
+                    <label for="floatingInput">Data e hora saída</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-primary">Salvar</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
     </div>
 </div>

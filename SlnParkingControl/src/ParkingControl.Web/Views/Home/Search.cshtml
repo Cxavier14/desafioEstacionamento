@@ -1,22 +1,22 @@
 ﻿@model IEnumerable<ParkingControl.Domain.DTOs.VeiculoDTO>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Search";
 }
 
 <div class="card rounded shadow-sm p-3">
     <div class="d-flex justify-content-between mb-3">
         <div class="align-items-end flex-column">
-            <form asp-action="Search">
+            <form>
                 <div class="input-group ms-auto">
                     <div class="input-group-prepended">
-                        <input name="placa" type="text" class="form-control" placeholder="AAA0000 / AAA2B23">
+                        <input type="text" class="form-control" placeholder="AAA0000 / AAA2B23">
                     </div>
-                    <button type="submit" class="btn btn-outline-primary">Buscar placa</button>
+                    <button class="btn btn-outline-primary">Buscar placa</button>
                 </div>
             </form>
         </div>
-        <a onclick="create()" class="btn btn-outline-success">Marcar Entrada</a>
+        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Página Inicial</a>
     </div>
 
     <table class="table table-striped table-hover">

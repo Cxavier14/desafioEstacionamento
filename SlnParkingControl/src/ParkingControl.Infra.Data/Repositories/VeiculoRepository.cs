@@ -27,6 +27,8 @@ namespace ParkingControl.Infra.Data.Repositories
 
         public async Task<int> Salvar(Veiculo veiculo)
         {
+            veiculo.Placa.ToUpper();
+
             _context.Veiculos.Add(veiculo);
             return await _context.SaveChangesAsync();
         }

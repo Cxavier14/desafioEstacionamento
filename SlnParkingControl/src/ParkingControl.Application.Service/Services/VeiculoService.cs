@@ -67,13 +67,22 @@ namespace ParkingControl.Application.Service.Services
         {
             try
             {
-                List<VeiculoDTO> entity = new List<VeiculoDTO>();
-                foreach (var item in entity)
+                var listDto = new List<VeiculoDTO>();
+                var list = await _repository.BuscarPorPlaca(placa);
+
+                foreach (var item in list)
                 {
-                    await _repository.BuscarPorPlaca(placa);
-                    entity.Add(item);
+                    var dto = new VeiculoDTO
+                    {
+                        id= item.Id,
+                        placa = item.Placa,
+                        dataHoraEntrada = item.DataHoraEntrada,
+                        dataHoraSaida = item.DataHoraSaida,
+                    };
+                    listDto.Add(dto);
                 }
-                return entity;
+
+                return listDto;
             }
             catch (Exception ex)
             {
@@ -114,6 +123,7 @@ namespace ParkingControl.Application.Service.Services
 
         public int CalculaTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida)
         {
+            TimeSpan tolerancia = new(1, 10, 0);
             int ts = horaSaida.Hour - horaEntrada.Hour;
             var temp = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
 
@@ -122,31 +132,35 @@ namespace ParkingControl.Application.Service.Services
                 ts = 0;
                 return ts;
             }
-            else
+            else if(temp <= tolerancia)
             {
                 return ts;
+            }
+            else
+            {
+                return ts + 1;
             }
         }
 
         public double CalculaValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco)
         {
-            TimeSpan tolerancia = new(0, 10, 0);
+            TimeSpan tolerancia = new(1, 10, 0);
 
             var tempoPermanencia = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
-            var tempoTolerancia = tempoPermanencia.Add(tolerancia);
+            
             var tempoHoras = CalculaTempoCobradoEmHoras(horaEntrada, horaSaida);
 
             if (tempoHoras.Equals(0))
             {
                 return 1.0 * (preco / 2);
             }
-            else if (tempoPermanencia <= tempoTolerancia)
+            else if (tempoPermanencia <= tolerancia)
             {
                 return tempoHoras * preco;
             }
             else
             {
-                return (tempoHoras + 1) * preco;
+                return tempoHoras * preco;
             }
         }
     }

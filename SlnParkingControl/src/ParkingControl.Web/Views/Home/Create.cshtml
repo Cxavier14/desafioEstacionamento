@@ -5,18 +5,16 @@
         <div class="modal-header">
             <h5 class="modal-title">Registrar</h5>
         </div>
-        <form>
+        <form asp-action="Create" novalidate>
             <div class="modal-body">
                 <div class="form-floating mb-3">
-                    <input asp-for="id" type="hidden" class="form-control" id="floatingInput" placeholder="Placa">
-                    <label for="floatingInput">Placa</label>
                     <input asp-for="placa" type="text" class="form-control" id="floatingInput" placeholder="Placa" required>
-                    <label for="floatingInput">Placa</label>
+                    <label for="floatingInput">Placa</label>                    
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Salvar</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-outline-success" type="submit">Salvar</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </form>
     </div>
