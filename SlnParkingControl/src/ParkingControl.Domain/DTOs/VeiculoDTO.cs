@@ -19,12 +19,15 @@ namespace ParkingControl.Domain.DTOs
 
         [Required(ErrorMessage = "{0} é obrigatória!")]
         [Display(Name = "Data e hora da entrada")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime dataHoraEntrada { get; set; }
 
         [Display(Name = "Data e hora de saída")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime dataHoraSaida { get; set; }
 
         [Display(Name = "Duração")]
+        //[DisplayFormat(DataFormatString = "{0:\\hhh\\:mm\\:ss}")]
         public virtual TimeSpan? duracao { get; set; }
 
         [Display(Name = "Tempo cobrado(em horas)")]
@@ -32,7 +35,7 @@ namespace ParkingControl.Domain.DTOs
 
         [Display(Name = "Preço")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
-        public virtual double tarifa { get; private set; } 
+        public virtual double tarifa { get; private set; }
 
         [Display(Name = "Valor a pagar")]
         [DisplayFormat(DataFormatString = "{0:F2}")]

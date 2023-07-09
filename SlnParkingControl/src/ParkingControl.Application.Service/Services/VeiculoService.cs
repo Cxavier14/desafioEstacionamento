@@ -123,9 +123,9 @@ namespace ParkingControl.Application.Service.Services
 
         public int CalculaTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida)
         {
-            TimeSpan tolerancia = new(1, 10, 0);
             int ts = horaSaida.Hour - horaEntrada.Hour;
             var temp = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
+            TimeSpan tolerancia = new(ts, 10, 0);
 
             if (temp.TotalMinutes > 0 && temp.TotalMinutes <= 30)
             {
