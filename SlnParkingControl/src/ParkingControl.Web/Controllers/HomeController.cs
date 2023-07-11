@@ -3,6 +3,7 @@ using ParkingControl.Application.Service.IServices;
 using ParkingControl.Domain.DTOs;
 using ParkingControl.Web.Models;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace ParkingControl.Web.Controllers
 {
@@ -44,10 +45,9 @@ namespace ParkingControl.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    veiculo.dataHoraEntrada = DateTime.Now;
-
                     if (await _veiculoService.Salvar(veiculo) > 0) return RedirectToAction(nameof(Index));
                 }
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -65,7 +65,6 @@ namespace ParkingControl.Web.Controllers
             }
             catch (Exception e)
             {
-
                 throw new Exception(e.Message);
             }
         }
@@ -79,8 +78,8 @@ namespace ParkingControl.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if(await _veiculoService.Editar(veiculo) > 0) return RedirectToAction(nameof(Index));
-                    
+                    if (await _veiculoService.Editar(veiculo) > 0) return RedirectToAction(nameof(Index));
+
                 }
             }
             catch (Exception e)

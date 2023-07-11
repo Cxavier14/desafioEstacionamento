@@ -18,16 +18,13 @@ namespace ParkingControl.Domain.DTOs
         public string placa { get; set; }
 
         [Required(ErrorMessage = "{0} é obrigatória!")]
-        [Display(Name = "Data e hora da entrada")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+        [Display(Name = "Data e hora da entrada")]        
         public DateTime dataHoraEntrada { get; set; }
 
         [Display(Name = "Data e hora de saída")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime dataHoraSaida { get; set; }
 
         [Display(Name = "Duração")]
-        //[DisplayFormat(DataFormatString = "{0:\\hhh\\:mm\\:ss}")]
         public virtual TimeSpan? duracao { get; set; }
 
         [Display(Name = "Tempo cobrado(em horas)")]

@@ -31,7 +31,9 @@ namespace ParkingControl.Application.Service.Services
                     placa = v.Placa,
                     dataHoraEntrada = v.DataHoraEntrada,
                     dataHoraSaida = v.DataHoraSaida
-                }).ToList();
+                })
+                    .OrderByDescending(v => v.dataHoraEntrada)
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -74,7 +76,7 @@ namespace ParkingControl.Application.Service.Services
                 {
                     var dto = new VeiculoDTO
                     {
-                        id= item.Id,
+                        id = item.Id,
                         placa = item.Placa,
                         dataHoraEntrada = item.DataHoraEntrada,
                         dataHoraSaida = item.DataHoraSaida,
@@ -132,7 +134,7 @@ namespace ParkingControl.Application.Service.Services
                 ts = 0;
                 return ts;
             }
-            else if(temp <= tolerancia)
+            else if (temp <= tolerancia)
             {
                 return ts;
             }
@@ -145,22 +147,20 @@ namespace ParkingControl.Application.Service.Services
         public double CalculaValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco)
         {
             TimeSpan tolerancia = new(1, 10, 0);
-
             var tempoPermanencia = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
-            
             var tempoHoras = CalculaTempoCobradoEmHoras(horaEntrada, horaSaida);
-
+            
             if (tempoHoras.Equals(0))
             {
-                return 1.0 * (preco / 2);
+                return preco / 2;
             }
             else if (tempoPermanencia <= tolerancia)
             {
-                return tempoHoras * preco;
+                return preco + (tempoHoras / 2);
             }
             else
             {
-                return tempoHoras * preco;
+                return preco + tempoHoras - 1;
             }
         }
     }
