@@ -1,11 +1,6 @@
 ﻿using ParkingControl.Application.Service.IServices;
 using ParkingControl.Domain.DTOs;
 using ParkingControl.Infra.Data.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingControl.Application.Service.Services
 {
@@ -18,16 +13,16 @@ namespace ParkingControl.Application.Service.Services
             _repository = repository;
         }
 
-        public TarifaDTO BuscarTarifa()
+        public TarifaDTO BuscarTarifa(DateTime dataEntrada)
         {
             try
             {
                 var dto = new TarifaDTO();
-                return dto.mapToDTO(_repository.BuscarTarifa());
+                return dto.mapToDTO(_repository.BuscarTarifa(dataEntrada));
             }
             catch (Exception ex)
             {
-                throw new Exception($"Ocorreu um erro inesperado! {ex.Message}");
+                throw new Exception($"Ocorreu um erro ao buscar a tarifa. {ex.Message}");
             }
         }
     }

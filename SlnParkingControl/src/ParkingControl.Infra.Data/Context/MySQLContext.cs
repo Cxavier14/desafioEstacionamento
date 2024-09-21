@@ -24,9 +24,9 @@ namespace ParkingControl.Infra.Data.Context
 
             modelBuilder.Entity<Tarifa>()
                 .HasData(
-                new { Id = 1, Preco = 2.00, DataVigencia = new DateTime(2023, 05, 01, 08, 00, 00) },
-                new { Id = 2, Preco = 2.50, DataVigencia = new DateTime(2023, 06, 01, 08, 00, 00) },
-                new { Id = 3, Preco = 3.00, DataVigencia = new DateTime(2023, 07, 01, 08, 00, 00) }
+                new { Id = 1, Preco = 2.00, DataInicioVigencia = new DateTime(2022, 01, 01, 00, 00, 00), DataFimVigencia = new DateTime(2022, 12, 31, 00, 00, 00) },
+                new { Id = 2, Preco = 2.00, DataInicioVigencia = new DateTime(2023, 01, 01, 00, 00, 00), DataFimVigencia = new DateTime(2023, 12, 31, 00, 00, 00) },
+                new { Id = 3, Preco = 2.00, DataInicioVigencia = new DateTime(2024, 01, 01, 00, 00, 00), DataFimVigencia = new DateTime(2024, 12, 31, 00, 00, 00) }
                 );
 
             base.OnModelCreating(modelBuilder);

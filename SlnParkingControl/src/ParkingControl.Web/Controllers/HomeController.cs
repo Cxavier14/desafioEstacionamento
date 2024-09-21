@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ParkingControl.Application.Service.IServices;
 using ParkingControl.Domain.DTOs;
-using ParkingControl.Web.Models;
-using System.Diagnostics;
-using System.Globalization;
 
 namespace ParkingControl.Web.Controllers
 {
@@ -24,9 +21,9 @@ namespace ParkingControl.Web.Controllers
             {
                 if (item.dataHoraSaida.Year > 2022)
                 {
-                    item.duracao = _veiculoService.CalculaDuracao(item.dataHoraEntrada, item.dataHoraSaida);
-                    item.tempoCobrado = _veiculoService.CalculaTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida);
-                    item.valorPagar = _veiculoService.CalculaValorPagar(item.dataHoraEntrada, item.dataHoraSaida, item.tarifa);
+                    item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida);
+                    item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida);
+                    item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida, item.tarifa);
                 }
             }
 
@@ -45,6 +42,11 @@ namespace ParkingControl.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (veiculo.dataHoraEntrada > veiculo.dataHoraSaida)
+                    {
+                        throw new InvalidDataException("Data início não pode ser maior que a data fim.");
+                    }
+
                     if (await _veiculoService.Salvar(veiculo) > 0) return RedirectToAction(nameof(Index));
                 }
 
@@ -78,8 +80,8 @@ namespace ParkingControl.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (await _veiculoService.Editar(veiculo) > 0) return RedirectToAction(nameof(Index));
-
+                    if (await _veiculoService.Editar(veiculo) > 0) 
+                        return RedirectToAction(nameof(Index));
                 }
             }
             catch (Exception e)
@@ -99,9 +101,9 @@ namespace ParkingControl.Web.Controllers
                 {
                     if (item.dataHoraSaida.Year > 2022)
                     {
-                        item.duracao = _veiculoService.CalculaDuracao(item.dataHoraEntrada, item.dataHoraSaida);
-                        item.tempoCobrado = _veiculoService.CalculaTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida);
-                        item.valorPagar = _veiculoService.CalculaValorPagar(item.dataHoraEntrada, item.dataHoraSaida, item.tarifa);
+                        item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida);
+                        item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida);
+                        item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida, item.tarifa);
                     }
                 }
 

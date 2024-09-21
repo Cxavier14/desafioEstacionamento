@@ -1,13 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ParkingControl.Application.Service.IServices;
+﻿using ParkingControl.Application.Service.IServices;
 using ParkingControl.Domain.DTOs;
-using ParkingControl.Domain.Entities;
 using ParkingControl.Infra.Data.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingControl.Application.Service.Services
 {
@@ -37,7 +30,7 @@ namespace ParkingControl.Application.Service.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"Ocorreu um erro inesperado! {ex.Message}");
+                throw new Exception($"Ocorreu um erro ao carregar a tela principal. {ex.Message}");
             }
         }
 
@@ -88,7 +81,7 @@ namespace ParkingControl.Application.Service.Services
             }
             catch (Exception ex)
             {
-                throw new Exception($"Ocorreu um erro inesperado! {ex.Message}");
+                throw new Exception($"Ocorreu um erro ao tentar buscar a placa. {ex.Message}");
             }
         }
 
@@ -117,38 +110,38 @@ namespace ParkingControl.Application.Service.Services
             }
         }
 
-        public TimeSpan CalculaDuracao(DateTime horaEntrada, DateTime horaSaida)
+        public TimeSpan RetornarDuracao(DateTime horaEntrada, DateTime horaSaida)
         {
             TimeSpan ts = horaSaida.Subtract(horaEntrada);
             return ts;
         }
 
-        public int CalculaTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida)
+        public int CalcularTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida)
         {
-            int ts = horaSaida.Hour - horaEntrada.Hour;
-            var temp = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
-            TimeSpan tolerancia = new(ts, 10, 0);
+            int totalHoras = horaSaida.Hour - horaEntrada.Hour;
+            var tempoPermanencia = RetornarDuracao(horaEntrada, horaSaida);
+            TimeSpan tolerancia = new(totalHoras, 10, 0);
 
-            if (temp.TotalMinutes > 0 && temp.TotalMinutes <= 30)
+            if (tempoPermanencia.TotalMinutes > 0 && tempoPermanencia.TotalMinutes <= 30)
             {
-                ts = 0;
-                return ts;
+                totalHoras = 0;
+                return totalHoras;
             }
-            else if (temp <= tolerancia)
+            else if (tempoPermanencia <= tolerancia)
             {
-                return ts;
+                return totalHoras;
             }
             else
             {
-                return ts + 1;
+                return totalHoras + 1;
             }
         }
 
-        public double CalculaValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco)
+        public double CalcularValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco)
         {
             TimeSpan tolerancia = new(1, 10, 0);
-            var tempoPermanencia = horaSaida.TimeOfDay.Subtract(horaEntrada.TimeOfDay);
-            var tempoHoras = CalculaTempoCobradoEmHoras(horaEntrada, horaSaida);
+            var tempoPermanencia = RetornarDuracao(horaEntrada, horaSaida);
+            var tempoHoras = CalcularTempoCobradoEmHoras(horaEntrada, horaSaida);
             
             if (tempoHoras.Equals(0))
             {

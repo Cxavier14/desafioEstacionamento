@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ParkingControl.Domain.Entities;
+﻿using ParkingControl.Domain.Entities;
 using ParkingControl.Infra.Data.Context;
 using ParkingControl.Infra.Data.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingControl.Infra.Data.Repositories
 {
@@ -19,11 +13,11 @@ namespace ParkingControl.Infra.Data.Repositories
             _context = context;
         }
 
-        public Tarifa BuscarTarifa()
+        public Tarifa BuscarTarifa(DateTime dataEntrada)
         {
-            return _context.Tarifas
-                .OrderBy(t => t.DataVigencia)
-                .LastOrDefault();            
+            var resultado = _context.Tarifas.Where(t => t.DataInicioVigencia <= dataEntrada && (!t.DataFimVigencia.HasValue || t.DataFimVigencia >= dataEntrada)).FirstOrDefault();
+
+            return resultado != null ? resultado : new Tarifa();
         }
     }
 }

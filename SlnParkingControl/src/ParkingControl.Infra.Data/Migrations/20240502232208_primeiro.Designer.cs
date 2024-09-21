@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkingControl.Infra.Data.Context;
 
@@ -10,9 +11,11 @@ using ParkingControl.Infra.Data.Context;
 namespace ParkingControl.Infra.Data.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    partial class MySQLContextModelSnapshot : ModelSnapshot
+    [Migration("20240502232208_primeiro")]
+    partial class primeiro
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +28,7 @@ namespace ParkingControl.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataFimVigencia")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DataInicioVigencia")
+                    b.Property<DateTime>("DataVigencia")
                         .HasColumnType("datetime(6)");
 
                     b.Property<double>("Preco")
@@ -42,23 +42,20 @@ namespace ParkingControl.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DataFimVigencia = new DateTime(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInicioVigencia = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataVigencia = new DateTime(2023, 5, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             Preco = 2.0
                         },
                         new
                         {
                             Id = 2,
-                            DataFimVigencia = new DateTime(2023, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInicioVigencia = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Preco = 2.0
+                            DataVigencia = new DateTime(2023, 6, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            Preco = 2.5
                         },
                         new
                         {
                             Id = 3,
-                            DataFimVigencia = new DateTime(2024, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DataInicioVigencia = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Preco = 2.0
+                            DataVigencia = new DateTime(2023, 7, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            Preco = 3.0
                         });
                 });
 

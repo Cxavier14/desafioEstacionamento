@@ -2,11 +2,6 @@
 using ParkingControl.Domain.Entities;
 using ParkingControl.Infra.Data.Context;
 using ParkingControl.Infra.Data.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingControl.Infra.Data.Repositories
 {
@@ -52,7 +47,8 @@ namespace ParkingControl.Infra.Data.Repositories
 
         public async Task<Veiculo> BuscarPeloId(int id)
         {
-            return await _context.Veiculos.FindAsync(id);
+            var resultado = await _context.Veiculos.FindAsync(id);
+            return resultado != null ? resultado : new Veiculo();
         }
     }
 }

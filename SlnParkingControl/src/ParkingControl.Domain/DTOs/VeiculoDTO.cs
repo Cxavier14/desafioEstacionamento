@@ -1,11 +1,5 @@
 ﻿using ParkingControl.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace ParkingControl.Domain.DTOs
 {
@@ -22,7 +16,8 @@ namespace ParkingControl.Domain.DTOs
         public DateTime dataHoraEntrada { get; set; }
 
         [Display(Name = "Data e hora de saída")]
-        public DateTime dataHoraSaida { get; set; }
+        public DateTime? dataHoraSaida { get; set; }
+
 
         [Display(Name = "Duração")]
         public virtual TimeSpan? duracao { get; set; }
@@ -39,16 +34,14 @@ namespace ParkingControl.Domain.DTOs
         public virtual double? valorPagar { get; set; }
 
         public VeiculoDTO()
-        {
-            this.tarifa = 2.00;
+        {            
         }
 
         public VeiculoDTO(int id, string placa, DateTime dataHoraEntrada)
         {
             this.id = id;
             this.placa = placa;
-            this.dataHoraEntrada = dataHoraEntrada;
-            this.tarifa = 2.00;
+            this.dataHoraEntrada = dataHoraEntrada;            
         }
 
         public VeiculoDTO(int id, string placa, DateTime dataHoraEntrada, DateTime dataHoraSaida, TimeSpan? duracao, int? tempoCobrado, double? valorPagar)
@@ -57,7 +50,6 @@ namespace ParkingControl.Domain.DTOs
             this.placa = placa;
             this.dataHoraEntrada = dataHoraEntrada;
             this.dataHoraSaida = dataHoraSaida;
-            this.tarifa = 2.00;
             this.duracao = duracao;
             this.tempoCobrado = tempoCobrado;
             this.valorPagar = valorPagar;

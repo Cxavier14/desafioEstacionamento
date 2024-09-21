@@ -1,9 +1,4 @@
 ﻿using ParkingControl.Domain.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ParkingControl.Application.Service.IServices
 {
@@ -15,8 +10,8 @@ namespace ParkingControl.Application.Service.IServices
         Task<int> Salvar(VeiculoDTO veiculo);
         Task<int> Editar(VeiculoDTO veiculo);
         Task<int> Deletar(VeiculoDTO veiculo);
-        TimeSpan CalculaDuracao(DateTime horaEntrada, DateTime horaSaida);
-        int CalculaTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida);
-        double CalculaValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco);
+        TimeSpan RetornarDuracao(DateTime horaEntrada, DateTime horaSaida);
+        int CalcularTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida);
+        double CalcularValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco);
     }
 }

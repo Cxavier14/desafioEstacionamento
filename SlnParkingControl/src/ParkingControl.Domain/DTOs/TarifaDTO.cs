@@ -1,11 +1,5 @@
 ﻿using ParkingControl.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace ParkingControl.Domain.DTOs
 {
@@ -17,8 +11,13 @@ namespace ParkingControl.Domain.DTOs
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double preco { get; set; }
 
-        [Display(Name = "Data de vigência")]
-        public DateTime dataVigencia { get; set; }
+        [Display(Name = "Data inicial da vigência")]
+        public DateTime dataInicioVigencia { get; set; }
+
+        [Display(Name = "Data fim da vigência")]
+        public DateTime? dataFimVigencia { get; set; }
+
+
 
         public TarifaDTO mapToDTO(Tarifa tarifa)
         {
@@ -26,7 +25,8 @@ namespace ParkingControl.Domain.DTOs
             {
                 id = tarifa.Id,
                 preco = tarifa.Preco,
-                dataVigencia = tarifa.DataVigencia
+                dataInicioVigencia = tarifa.DataInicioVigencia,
+                dataFimVigencia = tarifa.DataFimVigencia
             };
         }
 
@@ -36,7 +36,8 @@ namespace ParkingControl.Domain.DTOs
             {
                 Id= id,
                 Preco = preco,
-                DataVigencia = dataVigencia
+                DataInicioVigencia = dataInicioVigencia,
+                DataFimVigencia = dataFimVigencia
             };
         }
     }
