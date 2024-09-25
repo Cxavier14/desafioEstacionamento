@@ -19,11 +19,11 @@ namespace ParkingControl.Web.Controllers
 
             foreach (var item in result)
             {
-                if (item.dataHoraSaida.Year > 2022)
+                if (item.dataHoraSaida.HasValue)
                 {
-                    item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida);
-                    item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida);
-                    item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida, item.tarifa);
+                    item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida.Value);
+                    item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida.Value);
+                    item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida.Value, item.tarifa);
                 }
             }
 
@@ -80,7 +80,7 @@ namespace ParkingControl.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (await _veiculoService.Editar(veiculo) > 0) 
+                    if (await _veiculoService.Editar(veiculo) > 0)
                         return RedirectToAction(nameof(Index));
                 }
             }
@@ -99,11 +99,11 @@ namespace ParkingControl.Web.Controllers
                 var result = await _veiculoService.BuscarPorPlaca(placa);
                 foreach (var item in result)
                 {
-                    if (item.dataHoraSaida.Year > 2022)
+                    if (item.dataHoraSaida.HasValue)
                     {
-                        item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida);
-                        item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida);
-                        item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida, item.tarifa);
+                        item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida.Value);
+                        item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida.Value);
+                        item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida.Value, item.tarifa);
                     }
                 }
 

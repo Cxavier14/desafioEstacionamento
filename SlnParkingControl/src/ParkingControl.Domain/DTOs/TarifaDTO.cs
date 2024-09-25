@@ -34,7 +34,7 @@ namespace ParkingControl.Domain.DTOs
         {
             return new Tarifa
             {
-                Id= id,
+                Id = id,
                 Preco = preco,
                 DataInicioVigencia = dataInicioVigencia,
                 DataFimVigencia = dataFimVigencia
