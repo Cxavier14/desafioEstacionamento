@@ -137,7 +137,7 @@ namespace ParkingControl.Application.Service.Services
             }
         }
 
-        public double CalcularValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco)
+        public double CalcularValorPagar(DateTime horaEntrada, DateTime horaSaida, double tarifa)
         {
             TimeSpan tolerancia = new(1, 10, 0);
             var tempoPermanencia = RetornarDuracao(horaEntrada, horaSaida);
@@ -145,15 +145,15 @@ namespace ParkingControl.Application.Service.Services
             
             if (tempoHoras.Equals(0))
             {
-                return preco / 2;
+                return tarifa / 2;
             }
             else if (tempoPermanencia <= tolerancia)
             {
-                return preco + (tempoHoras / 2);
+                return tarifa + (tempoHoras / 2);
             }
             else
             {
-                return preco + tempoHoras - 1;
+                return tarifa + tempoHoras - 1;
             }
         }
     }

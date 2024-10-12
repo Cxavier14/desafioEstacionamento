@@ -7,23 +7,37 @@ namespace ParkingControl.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IVeiculoService _veiculoService;
+        private readonly ITarifaService _tarifaService;
 
-        public HomeController(IVeiculoService veiculoService)
+        public HomeController(IVeiculoService veiculoService, ITarifaService tarifaService)
         {
             _veiculoService = veiculoService;
+            _tarifaService = tarifaService;
         }
 
         public async Task<IActionResult> Index()
         {
             var result = await _veiculoService.BuscarTodos();
+            var tarifas = await _tarifaService.BuscarTodas();
 
             foreach (var item in result)
             {
+                var tarifa = tarifas
+                    .Where(t => t.dataInicioVigencia.Year == item.dataHoraEntrada.Year)
+                    .Select(t => t.preco)
+                    .FirstOrDefault();
+
+                if (tarifa <= 0)
+                {
+                    item.Mensagem = $"Não há tarifa cadastrada para o período {item.dataHoraEntrada.Year}.";
+                }
+                item.tarifa = tarifa;
+
                 if (item.dataHoraSaida.HasValue)
                 {
                     item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida.Value);
                     item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida.Value);
-                    item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida.Value, item.tarifa);
+                    item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida.Value, tarifa);
                 }
             }
 
@@ -44,17 +58,20 @@ namespace ParkingControl.Web.Controllers
                 {
                     if (veiculo.dataHoraEntrada > veiculo.dataHoraSaida)
                     {
-                        throw new InvalidDataException("Data início não pode ser maior que a data fim.");
+                        veiculo.Mensagem = "Data início não pode ser maior que a data fim.";
+                        return View(veiculo);
                     }
 
-                    if (await _veiculoService.Salvar(veiculo) > 0) return RedirectToAction(nameof(Index));
+                    if (await _veiculoService.Salvar(veiculo) > 0)
+                        return RedirectToAction(nameof(Index));
                 }
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                veiculo.Mensagem = ex.Message;
+                return View(veiculo);
             }
         }
 
@@ -67,7 +84,11 @@ namespace ParkingControl.Web.Controllers
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                var veiculo = new VeiculoDTO()
+                {
+                    Mensagem = e.Message
+                };
+                return View(veiculo);
             }
         }
 
@@ -76,18 +97,22 @@ namespace ParkingControl.Web.Controllers
         {
             try
             {
-                if (id != veiculo.id) return NoContent();
-
-                if (ModelState.IsValid)
+                if (id != veiculo.id)
                 {
-                    if (await _veiculoService.Editar(veiculo) > 0)
-                        return RedirectToAction(nameof(Index));
+                    veiculo.Mensagem = "Ocorreu um erro ao buscar o registro no banco de dados.";
+                    return View(veiculo);
                 }
+
+                if (await _veiculoService.Editar(veiculo) > 0)
+                    return RedirectToAction(nameof(Index));
+
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                veiculo.Mensagem = e.Message;
+                return View(veiculo);
             }
+
             return View(veiculo);
         }
 
@@ -96,14 +121,27 @@ namespace ParkingControl.Web.Controllers
         {
             try
             {
+                var tarifas = await _tarifaService.BuscarTodas();
                 var result = await _veiculoService.BuscarPorPlaca(placa);
+
                 foreach (var item in result)
                 {
+                    var tarifa = tarifas
+                    .Where(t => t.dataInicioVigencia.Year == item.dataHoraEntrada.Year)
+                    .Select(t => t.preco)
+                    .FirstOrDefault();
+
+                    if (tarifa <= 0)
+                    {
+                        item.Mensagem = "Não há tarifa cadastrada para o período!";                        
+                    }
+                    item.tarifa = tarifa;
+
                     if (item.dataHoraSaida.HasValue)
                     {
                         item.duracao = _veiculoService.RetornarDuracao(item.dataHoraEntrada, item.dataHoraSaida.Value);
                         item.tempoCobrado = _veiculoService.CalcularTempoCobradoEmHoras(item.dataHoraEntrada, item.dataHoraSaida.Value);
-                        item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida.Value, item.tarifa);
+                        item.valorPagar = _veiculoService.CalcularValorPagar(item.dataHoraEntrada, item.dataHoraSaida.Value, tarifa);
                     }
                 }
 
@@ -111,7 +149,11 @@ namespace ParkingControl.Web.Controllers
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                var veiculo = new VeiculoDTO()
+                {
+                    Mensagem = e.Message
+                };
+                return View(veiculo);
             }
         }
     }

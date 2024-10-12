@@ -5,9 +5,14 @@
         <div class="modal-header">
             <h5 class="modal-title">Editar @Model.placa</h5>
         </div>
+        <div>
+            <span>
+                <p></p>
+            </span>
+        </div>
         <form asp-action="Edit">
             <div class="modal-body">
-                <input type="hidden" asp-for="id"/>
+                <input type="hidden" asp-for="id" />
                 <div class="form-floating mb-3">
                     <input asp-for="placa" type="text" class="form-control" id="floatingInput" placeholder="Placa" required />
                     <label for="floatingInput">Placa</label>

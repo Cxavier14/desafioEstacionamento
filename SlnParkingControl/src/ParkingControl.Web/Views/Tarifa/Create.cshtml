@@ -5,6 +5,16 @@
         <div class="modal-header">
             <h5 class="modal-title">Registrar</h5>
         </div>
+        <div>
+            <span>
+                @if (!string.IsNullOrEmpty(Model.Mensagem))
+                {
+                    <div class="alert alert-warning" role="alert">
+                        <p>@Html.DisplayFor(modelItem => Model.Mensagem)</p>
+                    </div>
+                }
+            </span>
+        </div>
         <form asp-action="Create" novalidate>
             <div class="modal-body">
                 <div class="form-floating mb-3">

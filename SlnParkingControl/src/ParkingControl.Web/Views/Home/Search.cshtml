@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<ParkingControl.Domain.DTOs.VeiculoDTO>
-
 @{
+    var semErros = string.Empty;
+    var erros = ViewBag.Error ?? semErros;
     ViewData["Title"] = "Search";
 }
 
@@ -18,7 +19,11 @@
         </div>
         <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">Página Inicial</a>
     </div>
-
+    <div>
+        <span>
+            <b>@erros</b>
+        </span>
+    </div>
     <table class="table table-striped table-hover">
         <thead>
             <tr class="text-center">

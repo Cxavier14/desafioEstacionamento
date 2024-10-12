@@ -15,8 +15,20 @@ namespace ParkingControl.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result = await _tarifaService.BuscarTodas();
-            return View(result);
+            try
+            {
+                var result = await _tarifaService.BuscarTodas();
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                var result = new TarifaDTO()
+                {
+                    Mensagem = ex.Message
+                };
+
+                return View(result);
+            }
         }
 
         [HttpPost]
@@ -28,17 +40,24 @@ namespace ParkingControl.Web.Controllers
                 {
                     if (tarifaDTO.dataInicioVigencia > tarifaDTO.dataFimVigencia)
                     {
-                        throw new InvalidDataException("Data início não pode ser maior que a data fim.");
+                        tarifaDTO.Mensagem = "Data início não pode ser maior que a data fim.";
+                        return View(tarifaDTO);
                     }
 
-                    if (await _tarifaService.Salvar(tarifaDTO) > 0) return RedirectToAction(nameof(Index));
+                    if (await _tarifaService.Salvar(tarifaDTO) > 0) 
+                        return RedirectToAction(nameof(Index));
                 }
 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                var result = new TarifaDTO()
+                {
+                    Mensagem = ex.Message
+                };
+
+                return View(result);
             }
         }
     }

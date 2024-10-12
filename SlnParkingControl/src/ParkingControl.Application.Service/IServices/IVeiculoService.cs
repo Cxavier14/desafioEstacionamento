@@ -12,6 +12,6 @@ namespace ParkingControl.Application.Service.IServices
         Task<int> Deletar(VeiculoDTO veiculo);
         TimeSpan RetornarDuracao(DateTime horaEntrada, DateTime horaSaida);
         int CalcularTempoCobradoEmHoras(DateTime horaEntrada, DateTime horaSaida);
-        double CalcularValorPagar(DateTime horaEntrada, DateTime horaSaida, double preco);
+        double CalcularValorPagar(DateTime horaEntrada, DateTime horaSaida, double tarifa);
     }
 }
