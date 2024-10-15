@@ -21,8 +21,8 @@
             {
                 @if (!string.IsNullOrEmpty(v.Mensagem))
                 {
-                    <div class="alert alert-warning" role="alert">
-                        <p>@Html.DisplayFor(modelItem => v.Mensagem)</p>
+                    <div class="@v.ClasseTipoAlerta" role="alert">
+                        <p>@v.Mensagem</p>
                     </div>
                 }
             }

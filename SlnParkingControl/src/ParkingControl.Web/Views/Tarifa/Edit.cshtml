@@ -5,6 +5,16 @@
         <div class="modal-header">
             <h5 class="modal-title">Editar @Model.id</h5>
         </div>
+        <div>
+            <span>
+                @if (Model != null && !string.IsNullOrEmpty(Model.Mensagem))
+                {
+                    <div class="@Model.ClasseTipoAlerta" role="alert">
+                        <p>@Model.Mensagem</p>
+                    </div>
+                }
+            </span>
+        </div>
         <form asp-action="Edit">
             <div class="modal-body">
                 <input type="hidden" asp-for="id" />

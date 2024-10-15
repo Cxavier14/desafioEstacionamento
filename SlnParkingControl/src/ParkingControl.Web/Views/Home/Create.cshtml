@@ -7,10 +7,10 @@
         </div>
         <div>
             <span>
-                @if (!string.IsNullOrEmpty(Model.Mensagem))
+                @if (Model != null && !string.IsNullOrEmpty(Model.Mensagem))
                 {
-                    <div class="alert alert-warning" role="alert">
-                        <p>@Html.DisplayFor(modelItem => Model.Mensagem)</p>
+                    <div class="@Model.ClasseTipoAlerta" role="alert">
+                        <p>@Model.Mensagem</p>
                     </div>
                 }
             </span>

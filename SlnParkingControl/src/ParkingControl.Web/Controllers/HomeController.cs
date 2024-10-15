@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ParkingControl.Application.Service.IServices;
 using ParkingControl.Domain.DTOs;
+using ParkingControl.Domain.Enums;
 
 namespace ParkingControl.Web.Controllers
 {
@@ -30,6 +31,7 @@ namespace ParkingControl.Web.Controllers
                 if (tarifa <= 0)
                 {
                     item.Mensagem = $"Não há tarifa cadastrada para o período {item.dataHoraEntrada.Year}.";
+                    item.ClasseTipoAlerta = item.RetornarTipoAlerta(TipoAlerta.Warning);
                 }
                 item.tarifa = tarifa;
 
@@ -71,6 +73,7 @@ namespace ParkingControl.Web.Controllers
             catch (Exception ex)
             {
                 veiculo.Mensagem = ex.Message;
+                veiculo.ClasseTipoAlerta = veiculo.RetornarTipoAlerta(TipoAlerta.Danger);
                 return View(veiculo);
             }
         }
@@ -84,10 +87,10 @@ namespace ParkingControl.Web.Controllers
             }
             catch (Exception e)
             {
-                var veiculo = new VeiculoDTO()
-                {
-                    Mensagem = e.Message
-                };
+                var veiculo = new VeiculoDTO();
+                veiculo.Mensagem = e.Message;
+                veiculo.ClasseTipoAlerta = veiculo.RetornarTipoAlerta(TipoAlerta.Danger);
+
                 return View(veiculo);
             }
         }
@@ -100,6 +103,7 @@ namespace ParkingControl.Web.Controllers
                 if (id != veiculo.id)
                 {
                     veiculo.Mensagem = "Ocorreu um erro ao buscar o registro no banco de dados.";
+                    veiculo.ClasseTipoAlerta = veiculo.RetornarTipoAlerta(TipoAlerta.Warning);
                     return View(veiculo);
                 }
 
@@ -110,6 +114,7 @@ namespace ParkingControl.Web.Controllers
             catch (Exception e)
             {
                 veiculo.Mensagem = e.Message;
+                veiculo.ClasseTipoAlerta = veiculo.RetornarTipoAlerta(TipoAlerta.Danger);
                 return View(veiculo);
             }
 
@@ -133,7 +138,8 @@ namespace ParkingControl.Web.Controllers
 
                     if (tarifa <= 0)
                     {
-                        item.Mensagem = "Não há tarifa cadastrada para o período!";                        
+                        item.Mensagem = "Não há tarifa cadastrada para o período!";
+                        item.ClasseTipoAlerta = item.RetornarTipoAlerta(TipoAlerta.Warning);
                     }
                     item.tarifa = tarifa;
 
@@ -149,10 +155,9 @@ namespace ParkingControl.Web.Controllers
             }
             catch (Exception e)
             {
-                var veiculo = new VeiculoDTO()
-                {
-                    Mensagem = e.Message
-                };
+                var veiculo = new VeiculoDTO();
+                veiculo.Mensagem = e.Message;
+                veiculo.ClasseTipoAlerta = veiculo.RetornarTipoAlerta(TipoAlerta.Danger);
                 return View(veiculo);
             }
         }

@@ -1,9 +1,4 @@
 ﻿@model IEnumerable<ParkingControl.Domain.DTOs.VeiculoDTO>
-@{
-    var semErros = string.Empty;
-    var erros = ViewBag.Error ?? semErros;
-    ViewData["Title"] = "Search";
-}
 
 <div class="card rounded shadow-sm p-3">
     <div class="d-flex justify-content-between mb-3">
@@ -21,7 +16,15 @@
     </div>
     <div>
         <span>
-            <b>@erros</b>
+            @foreach (var v in Model)
+            {
+                @if (!string.IsNullOrEmpty(v.Mensagem))
+                {
+                    <div class="@v.ClasseTipoAlerta" role="alert">
+                        <p>@v.Mensagem</p>
+                    </div>
+                }
+            }
         </span>
     </div>
     <table class="table table-striped table-hover">

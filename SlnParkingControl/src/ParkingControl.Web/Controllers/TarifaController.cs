@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ParkingControl.Application.Service.IServices;
 using ParkingControl.Domain.DTOs;
+using ParkingControl.Domain.Enums;
 
 namespace ParkingControl.Web.Controllers
 {
@@ -22,12 +23,10 @@ namespace ParkingControl.Web.Controllers
             }
             catch (Exception ex)
             {
-                var result = new TarifaDTO()
-                {
-                    Mensagem = ex.Message
-                };
-
-                return View(result);
+                var tarifa = new TarifaDTO();
+                tarifa.Mensagem = ex.Message;
+                tarifa.ClasseTipoAlerta = tarifa.RetornarTipoAlerta(TipoAlerta.Danger);
+                return View(tarifa);
             }
         }
 
@@ -52,12 +51,9 @@ namespace ParkingControl.Web.Controllers
             }
             catch (Exception ex)
             {
-                var result = new TarifaDTO()
-                {
-                    Mensagem = ex.Message
-                };
-
-                return View(result);
+                tarifaDTO.Mensagem = ex.Message;
+                tarifaDTO.ClasseTipoAlerta = tarifaDTO.RetornarTipoAlerta(TipoAlerta.Danger);
+                return View(tarifaDTO);
             }
         }
     }

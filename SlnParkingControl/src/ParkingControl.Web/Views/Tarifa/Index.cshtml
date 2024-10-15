@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ParkingControl.Domain.DTOs.TarifaDTO>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Tarifas";
 }
 
 <div class="card rounded shadow-sm p-3">
@@ -17,6 +17,20 @@
             </form>
         </div>
         <a onclick="create()" class="btn btn-outline-success">Marcar Entrada</a>
+    </div>
+
+    <div>
+        <span>
+            @foreach (var v in Model)
+            {
+                @if (!string.IsNullOrEmpty(v.Mensagem))
+                {
+                    <div class="@v.ClasseTipoAlerta" role="alert">
+                        <p>@v.Mensagem</p>
+                    </div>
+                }
+            }
+        </span>
     </div>
 
     <table class="table table-striped table-hover">

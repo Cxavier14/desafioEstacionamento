@@ -1,4 +1,5 @@
 ﻿using ParkingControl.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParkingControl.Domain.ExceptionValidation
 {
@@ -7,9 +8,17 @@ namespace ParkingControl.Domain.ExceptionValidation
         /// <summary>
         /// Mensagem para tratar validação e/ou exceção.
         /// </summary>
-        public virtual string Mensagem { get; set; }
+        [NotMapped]
+        public string Mensagem { get; set; }
 
-        public static string RetornarTipoAlerta(TipoAlerta tipo)
+        /// <summary>
+        /// Classe css do tipo de alerta
+        /// Sucess, Warning, Danger, Info
+        /// </summary>
+        [NotMapped]
+        public string ClasseTipoAlerta { get; set; }
+
+        public string RetornarTipoAlerta(TipoAlerta tipo)
         {
             return (int)tipo switch
             {
